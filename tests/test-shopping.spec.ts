@@ -1,43 +1,131 @@
 import { test, expect } from '@playwright/test'
 
-test.beforeEach(async ({ page }) => {
-    await page.goto('https://www.on.com/en-th/shop/womens/shoes');
-});
+test.beforeEach('Open the web page', async ({ page }) => {
+    await page.goto('https://www.on.com/en-th/shop/shoes');
+async function closePopupWithEscape(page) {
+            try {
+                // Press Escape key to close popup
+                await page.keyboard.press('Escape');
+                console.log('Pressed Escape to close popup');
 
-test.describe('Test web shopping', () => {
-    test('Open the web in url', async ({ page }) => {
-        const pageTitle = 'Women’s shoes';
-        const titleText = page.locator('[data-test-id="pageTitle"]');
-        await expect(titleText).toHaveText(pageTitle)
-    });
+                // Wait a moment to see if popup closed
+                await page.waitForTimeout(1000);
 
-    test('Click show to filter', async ({ page }) => {
-        const button = page.locator('button:has(span:text("Show filters"))');
-        await expect(button).toHaveText('Show filters')
-    });
+                // Check if popup still exists
+                const popupStillExists = await page.locator('.popup, .modal, .dialog').count() > 0;
+                return !popupStillExists;
 
-    test('Click Activity : Lifestyle and select color', async ({ page }) => {
-        await page.getByRole('link', { name: 'Lifestyle' }).click();
-        const wrapper = page.getByTestId('main-filter-white');
-        //console.log(wrapper)
-    });
-
-    test('Select checkbox', async ({ page }) => {
-        const ulElements = await page.locator('[data-test-id="filter-white"]').all();
-        for (let i = 0; i < ulElements.length; i++) {
-            const ul = ulElements[i];
-
-            // Get all li elements within this ul
-            const liElements = await ul.locator('li').all();
-
-            console.log(`UL ${i + 1} has ${liElements.length} items:`);
-
-            for (let j = 0; j < liElements.length; j++) {
-                const liText = await liElements[j].textContent();
-                console.log(`  Item ${j + 1}: ${liText}`);
+            } catch (error) {
+                console.error('Error closing popup with Escape:', error);
+                return false;
             }
         }
+        //Usage
+        await closePopupWithEscape(page);
 
+
+});
+
+test.describe('Test Web Clouds Shoes', () => {
+    // check heading : name
+    // test('check title : Shoes ', async ({ page }) => {
+    //     async function closePopupWithEscape(page) {
+    //         try {
+    //             // Press Escape key to close popup
+    //             await page.keyboard.press('Escape');
+    //             console.log('Pressed Escape to close popup');
+
+    //             // Wait a moment to see if popup closed
+    //             await page.waitForTimeout(1000);
+
+    //             // Check if popup still exists
+    //             const popupStillExists = await page.locator('.popup, .modal, .dialog').count() > 0;
+    //             return !popupStillExists;
+
+    //         } catch (error) {
+    //             console.error('Error closing popup with Escape:', error);
+    //             return false;
+    //         }
+    //     }
+    //     //Usage
+    //     await closePopupWithEscape(page);
+
+    // });
+
+    test('Select filter', async ({ page }) => {
+        const spanWithText = page.locator('span').filter({ hasText: 'Show filters' }).first();
+        await expect(spanWithText).toBeVisible();
+        await page.getByText('Show filters').click();
+        //console.log(spanWithText)
+    });
+
+    test('Select : liftstyle', async ({ page }) => {
+
+        // Get all links with the same data-test-id
+        const allLinks = page.locator('a[data-test-id="seo-filter-link"]');
+        const count = await allLinks.count();
+
+        for (let i = 0; i < count; i++) {
+            const link = allLinks.nth(i);
+            const href = await link.getAttribute('href');
+            const text = await link.textContent();
+            console.log(`Link ${i}: "${text?.trim()}" -> ${href}`);
+
+            // Click specific link based on href or text
+            if (href === '/en-th/shop/shoes/active-life') {
+                await link.click();
+                break;
+            }
+        }
+    });
+
+    test('Select color: White', async ({ page }) => {
+
+        const allLinks = page.locator('a[data-test-id="productCard-0"]');
+        const count = await allLinks.count();
+
+        for (let i = 0; i < count; i++) {
+            const link = allLinks.nth(i);
+            const href = await link.getAttribute('href');
+            const text = await link.textContent();
+            console.log(`Link ${i}: "${text?.trim()}" -> ${href}`);
+
+            // Click specific link based on href or text
+            if (href === '/en-th/products/cloud-6-versa-w-3wf1003/womens/white-white-shoes-3WF10031200') {
+                await link.click();
+                break;
+            }
+        }
+    });
+
+    test('check item for price', async ({ page }) => {
+        async function validatePriceWithRegex(page) {
+            const productLink = page.locator('a[href="/en-th/products/cloud-6-versa-w-3wf1003/womens/white-white-shoes-3WF10031200"]').first();
+            const ariaLabel = await productLink.getAttribute('aria-label');
+
+            // Flexible price regex that handles various formats
+            const priceRegex = /THB\s*6,600\.00/;
+
+            console.log('Aria-label:', ariaLabel);
+            console.log('Contains expected price:', priceRegex.test(ariaLabel || ''));
+
+            // Use regex assertion
+            expect(ariaLabel).toMatch(priceRegex);
+
+            return ariaLabel;
+        }
+        // Usage
+        await validatePriceWithRegex(page);
+
+    });
+
+    test('Input value search', async ({ page }) => {
+        // Playwright's built-in drag method
+        await page.locator('#search').dragTo(page.locator('#search-box'));
+        await page.locator('[placeholder="Search for products and FAQs"]').fill('6,600');
+
+        //Check value fill-in
+        await expect(page.locator('[placeholder="Search for products and FAQs"]')).toHaveValue('6,600')
     });
 
 });
