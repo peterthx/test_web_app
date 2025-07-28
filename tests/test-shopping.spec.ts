@@ -2,55 +2,30 @@ import { test, expect } from '@playwright/test'
 
 test.beforeEach('Open the web page', async ({ page }) => {
     await page.goto('https://www.on.com/en-th/shop/shoes');
-async function closePopupWithEscape(page) {
-            try {
-                // Press Escape key to close popup
-                await page.keyboard.press('Escape');
-                console.log('Pressed Escape to close popup');
+    async function closePopupWithEscape(page) {
+        try {
+            // Press Escape key to close popup
+            await page.keyboard.press('Escape');
+            console.log('Pressed Escape to close popup');
 
-                // Wait a moment to see if popup closed
-                await page.waitForTimeout(1000);
+            // Wait a moment to see if popup closed
+            await page.waitForTimeout(1000);
 
-                // Check if popup still exists
-                const popupStillExists = await page.locator('.popup, .modal, .dialog').count() > 0;
-                return !popupStillExists;
+            // Check if popup still exists
+            const popupStillExists = await page.locator('.popup, .modal, .dialog').count() > 0;
+            return !popupStillExists;
 
-            } catch (error) {
-                console.error('Error closing popup with Escape:', error);
-                return false;
-            }
+        } catch (error) {
+            console.error('Error closing popup with Escape:', error);
+            return false;
         }
-        //Usage
-        await closePopupWithEscape(page);
-
+    }
+    //Usage
+    await closePopupWithEscape(page);
 
 });
 
 test.describe('Test Web Clouds Shoes', () => {
-    // check heading : name
-    // test('check title : Shoes ', async ({ page }) => {
-    //     async function closePopupWithEscape(page) {
-    //         try {
-    //             // Press Escape key to close popup
-    //             await page.keyboard.press('Escape');
-    //             console.log('Pressed Escape to close popup');
-
-    //             // Wait a moment to see if popup closed
-    //             await page.waitForTimeout(1000);
-
-    //             // Check if popup still exists
-    //             const popupStillExists = await page.locator('.popup, .modal, .dialog').count() > 0;
-    //             return !popupStillExists;
-
-    //         } catch (error) {
-    //             console.error('Error closing popup with Escape:', error);
-    //             return false;
-    //         }
-    //     }
-    //     //Usage
-    //     await closePopupWithEscape(page);
-
-    // });
 
     test('Select filter', async ({ page }) => {
         const spanWithText = page.locator('span').filter({ hasText: 'Show filters' }).first();
