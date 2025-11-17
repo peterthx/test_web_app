@@ -1,8 +1,8 @@
-import { test, expect, Page } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 
 test.beforeEach("Open the web page", async ({ page }) => {
   await page.goto("https://www.on.com/en-th/shop/shoes");
-  async function closePopupWithEscape({ page }: { page: any }) {
+  async function closePopupWithEscape({ page }) {
     try {
       // Press Escape key to close popup
       await page.keyboard.press("Escape");
@@ -74,21 +74,26 @@ test.describe("Test Web Clouds Shoes", () => {
     }
   });
 
-//   test("check item for price", async ({ page }) => {
-//     const productCard = page
-//       .locator(
-//         'a[href="/en-th/products/cloud-6-versa-w-3wf1003/womens/white-white-shoes-3WF10031200"]'
-//       )
-//       .first();
+  test("check item for price", async ({ page }) => {
+    async function validatePrice({ page }) {
+      const productCard = page
+        .locator(
+          'a[href="/en-th/products/cloud-6-versa-w-3wf1003/womens/white-white-shoes-3WF10031200"]'
+        )
+        .first();
 
-//     const priceText = await productCard
-//       .locator('[data-test-id="product-price"], .price, span:has-text("THB")')
-//       .innerText();
+      const priceText = await productCard
+        .locator('[data-test-id="product-price"], .price, span:has-text("THB")')
+        .innerText();
 
-//     console.log("PRICE FOUND =>", priceText);
+      console.log("PRICE FOUND =>", priceText);
 
-//     expect(priceText).toMatch(/THB\s*6,600\.00/);
-//   });
+      expect(priceText).toMatch(/THB\s*6,600\.00/);
+    }
+
+    // Usage
+    await validatePrice({ page });
+  });
 
   test("Input value search", async ({ page }) => {
     // Playwright's built-in drag method
