@@ -74,21 +74,21 @@ test.describe("Test Web Clouds Shoes", () => {
     }
   });
 
-//   test("check item for price", async ({ page }) => {
-//     const productCard = page
-//       .locator(
-//         'a[href="/en-th/products/cloud-6-versa-w-3wf1003/womens/white-white-shoes-3WF10031200"]'
-//       )
-//       .first();
+  test("check item for price", async ({ page }) => {
+    const productCard = page
+      .locator(
+        'a[href="/en-th/products/cloud-6-versa-w-3wf1003/womens/white-white-shoes-3WF10031200"]'
+      )
+      .first();
 
-//     const priceText = await productCard
-//       .locator('[data-test-id="product-price"], .price, span:has-text("THB")')
-//       .innerText();
+    const priceText = await productCard
+      .locator('[data-test-id="product-price"], .price, span:has-text("THB")')
+      .innerText();
 
-//     console.log("PRICE FOUND =>", priceText);
+    console.log("PRICE FOUND =>", priceText);
 
-//     expect(priceText).toMatch(/THB\s*6,600\.00/);
-//   });
+    expect(priceText).toMatch(/THB\s*6,600\.00/);
+  })
 
   test("Input value search", async ({ page }) => {
     // Playwright's built-in drag method
@@ -101,5 +101,6 @@ test.describe("Test Web Clouds Shoes", () => {
     await expect(
       page.locator('[placeholder="Search for products and FAQs"]')
     ).toHaveValue("6,600");
-  });
+  })
+
 });
