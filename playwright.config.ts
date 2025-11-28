@@ -42,7 +42,6 @@ export default defineConfig({
       name: "safari",
       use: { ...devices["Desktop Safari"] },
     },
-
     // {
     //   name: 'firefox',
     //   use: { ...devices['Desktop Firefox'] },
