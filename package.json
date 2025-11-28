@@ -1,7 +1,7 @@
 {
   "name": "test_web_app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Playwright end-to-end tests covering a demo shopping workflow on an external website. These tests demonstrate common Playwright test patterns and can be a starting point for building robust E2E suites.",
   "main": "index.js",
   "scripts": {},
   "repository": {
@@ -11,13 +11,12 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/peterthx/test_web_app/issues"
   },
   "homepage": "https://github.com/peterthx/test_web_app#readme",
   "devDependencies": {
-    "@playwright/test": "^1.54.1",
-    "@types/node": "^24.1.0"
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^24.10.1"
   }
 }
