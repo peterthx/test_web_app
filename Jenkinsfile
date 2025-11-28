@@ -1,13 +1,6 @@
 pipeline {
-    agent {
-        // We use the official Playwright image to ensure Node and OS dependencies exist.
-        // This replaces 'runs-on: ubuntu-latest' and 'setup-node'.
-        docker { 
-            image 'mcr.microsoft.com/playwright:v1.49.0-jammy' 
-            // 'reuseNode true' keeps the container alive for performance (optional)
-            reuseNode true 
-        }
-    }
+
+    agent any
 
     options {
         // Equivalent to 'timeout-minutes: 60'
