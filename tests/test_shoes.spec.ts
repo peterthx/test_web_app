@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test.beforeEach("Open the web page", async ({ page }) => {
-  await page.goto("https://www.on.com/en-th/shop/womens/shoes");
+  await page.goto("/en-th/shop/womens/shoes");
   async function closePopupWithEscape({ page }: { page: any }) {
     try {
       // Press Escape key to close popup
