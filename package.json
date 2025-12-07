@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Playwright end-to-end tests covering a demo shopping workflow on an external website. These tests demonstrate common Playwright test patterns and can be a starting point for building robust E2E suites.",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "tests": "playwright test"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/peterthx/test_web_app.git"
